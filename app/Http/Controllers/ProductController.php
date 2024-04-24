@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UploadExcelRequest;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Product;
 use App\Services\ProductService;
@@ -23,10 +24,10 @@ class ProductController extends Controller
         return view('import_products');
     }
 
-    public function uploadExcel(Request $request): RedirectResponse
+    public function uploadExcel(UploadExcelRequest $request): RedirectResponse
     {
-        $file = $request->file('file');
-        $this->productService->uploadExel($file);
+        $data = $request->validated();
+        $this->productService->uploadExel($data['file']);
         return redirect()->route('index');
     }
 
